@@ -1,0 +1,12 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "temp",
+	"webDir": "dist",
+	"packageClassList": [
+		"AppPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"LocalNotificationsPlugin",
+		"StatusBarPlugin"
+	]
+}
