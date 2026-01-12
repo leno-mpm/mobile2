@@ -1,9 +1,9 @@
 import { Preferences } from '@capacitor/preferences';
-import { Task } from '../Tab2'; // Importar interfaces
-import { Category } from '../Tab3';
+import { Task } from '../models/Task';
+import { Category } from '../models/Category';
 
 export class StorageService {
-  // Guardar tareas
+
   static async saveTasks(tasks: Task[]): Promise<void> {
     await Preferences.set({
       key: 'tasks',
@@ -11,13 +11,11 @@ export class StorageService {
     });
   }
 
-  // Cargar tareas
   static async loadTasks(): Promise<Task[]> {
     const { value } = await Preferences.get({ key: 'tasks' });
     return value ? JSON.parse(value) : [];
   }
 
-  // Guardar categorías
   static async saveCategories(categories: Category[]): Promise<void> {
     await Preferences.set({
       key: 'categories',
@@ -25,13 +23,11 @@ export class StorageService {
     });
   }
 
-  // Cargar categorías
   static async loadCategories(): Promise<Category[]> {
     const { value } = await Preferences.get({ key: 'categories' });
     return value ? JSON.parse(value) : [];
   }
 
-  // Guardar configuraciones
   static async saveSettings(settings: any): Promise<void> {
     await Preferences.set({
       key: 'appSettings',
@@ -39,13 +35,11 @@ export class StorageService {
     });
   }
 
-  // Cargar configuraciones
   static async loadSettings(): Promise<any> {
     const { value } = await Preferences.get({ key: 'appSettings' });
     return value ? JSON.parse(value) : {};
   }
 
-  // Limpiar todo (logout)
   static async clearAll(): Promise<void> {
     await Preferences.clear();
   }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { NotificationService } from '../pages/CapacitorServices/notifications.service';
+import { NotificationService } from '../services/notifications.service';
 
 export function useNotifications() {
   const [permissionGranted, setPermissionGranted] = useState(false);

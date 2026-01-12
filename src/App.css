@@ -1,0 +1,14 @@
+/* ===== TAB BAR ===== */
+
+.app-tab-bar {
+  --background: #ffffff;
+  border-top: 1px solid #e0e0e0;
+}
+
+ion-tab-button {
+  --color: var(--ion-color-medium);
+}
+
+ion-tab-button.tab-selected {
+  --color: var(--ion-color-primary);
+}

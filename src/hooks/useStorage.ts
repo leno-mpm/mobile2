@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { StorageService } from '../pages/CapacitorServices/storage.service';
+import { StorageService } from '../services/storage.service';
 
 export function useStorage() {
   const [tasks, setTasks] = useState<any[]>([]);
