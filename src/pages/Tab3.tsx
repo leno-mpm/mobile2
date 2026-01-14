@@ -19,18 +19,13 @@ import {
 } from 'ionicons/icons';
 
 import { useState } from 'react';
-import { StorageService } from '../services/storage.service';
+import { useTasks } from '../context/TaskContext';
 
 import './Tab3.css';
 
 const Tab3: React.FC = () => {
+  const { clearTasks } = useTasks();
   const [showAlert, setShowAlert] = useState(false);
-
-  const clearAllData = async () => {
-    await StorageService.clearAll();
-    setShowAlert(false);
-    window.location.reload();
-  };
 
   return (
     <IonPage>
@@ -42,9 +37,8 @@ const Tab3: React.FC = () => {
 
       <IonContent fullscreen className="tab3-content">
 
-        {/* Información */}
         <IonList inset>
-          <IonItem lines="none">
+          <IonItem>
             <IonIcon icon={informationCircleOutline} slot="start" />
             <IonLabel>
               <h2>Aplicación</h2>
@@ -61,7 +55,6 @@ const Tab3: React.FC = () => {
           </IonItem>
         </IonList>
 
-        {/* Zona peligrosa */}
         <div className="danger-zone">
           <h3>Zona peligrosa</h3>
 
@@ -80,16 +73,13 @@ const Tab3: React.FC = () => {
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}
           header="Confirmar acción"
-          message="¿Estás seguro de que deseas borrar todas las tareas? Esta acción no se puede deshacer."
+          message="¿Estás seguro de que deseas borrar todas las tareas?"
           buttons={[
-            {
-              text: 'Cancelar',
-              role: 'cancel'
-            },
+            { text: 'Cancelar', role: 'cancel' },
             {
               text: 'Borrar',
               role: 'destructive',
-              handler: clearAllData
+              handler: clearTasks
             }
           ]}
         />
@@ -100,4 +90,5 @@ const Tab3: React.FC = () => {
 };
 
 export default Tab3;
+
 

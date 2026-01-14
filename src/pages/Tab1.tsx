@@ -11,49 +11,24 @@ import {
 } from '@ionic/react';
 
 import { add, listOutline } from 'ionicons/icons';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import TaskItem from '../components/TaskItem';
 import AddTaskModal from '../components/AddTaskModal';
-import { Task } from '../models/Task';
-import { StorageService } from '../services/storage.service';
+import { useTasks } from '../context/TaskContext';
 
 import './Tab1.css';
 
 const Tab1: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const { tasks, addTask, toggleTask } = useTasks();
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    const loadTasks = async () => {
-      const savedTasks = await StorageService.loadTasks();
-      setTasks(savedTasks);
-    };
-    loadTasks();
-  }, []);
-
-  useEffect(() => {
-    StorageService.saveTasks(tasks);
-  }, [tasks]);
-
-  const addTask = (title: string) => {
-    const newTask: Task = {
-      id: Date.now().toString(),
-      title,
-      completed: false,
-      createdAt: new Date().toISOString()
-    };
-    setTasks(prev => [...prev, newTask]);
+  const openModal = () => {
+    setShowModal(true);
   };
 
-  const toggleTask = (id: string) => {
-    setTasks(prev =>
-      prev.map(task =>
-        task.id === id
-          ? { ...task, completed: !task.completed }
-          : task
-      )
-    );
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   return (
@@ -85,15 +60,19 @@ const Tab1: React.FC = () => {
         </IonList>
 
         <IonFab slot="fixed" vertical="bottom" horizontal="end">
-          <IonFabButton onClick={() => setShowModal(true)}>
+          <IonFabButton onClick={openModal}>
             <IonIcon icon={add} />
           </IonFabButton>
         </IonFab>
 
+        {/* 👇 CLAVE */}
         <AddTaskModal
           isOpen={showModal}
-          onClose={() => setShowModal(false)}
-          onSave={addTask}
+          onClose={closeModal}
+          onSave={(title) => {
+            addTask(title);
+            closeModal();
+          }}
         />
 
       </IonContent>
@@ -102,3 +81,5 @@ const Tab1: React.FC = () => {
 };
 
 export default Tab1;
+
+

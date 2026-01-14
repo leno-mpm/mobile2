@@ -4,10 +4,15 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
-  IonInput,
   IonButton,
-  IonItem
+  IonItem,
+  IonInput,
+  IonFooter,
+  IonButtons,
+  IonIcon
 } from '@ionic/react';
+
+import { closeOutline } from 'ionicons/icons';
 import { useState } from 'react';
 
 interface Props {
@@ -19,43 +24,55 @@ interface Props {
 const AddTaskModal: React.FC<Props> = ({ isOpen, onClose, onSave }) => {
   const [title, setTitle] = useState('');
 
-  const save = () => {
+  const handleSave = () => {
     if (!title.trim()) return;
-    onSave(title.trim());
+    onSave(title);
     setTitle('');
-    onClose();
   };
 
   return (
-    <IonModal isOpen={isOpen} breakpoints={[0, 0.5, 1]} initialBreakpoint={0.5}>
+    <IonModal
+      isOpen={isOpen}
+      onDidDismiss={onClose}
+      backdropDismiss
+    >
       <IonHeader>
         <IonToolbar>
+
+          
+          <IonButtons slot="start">
+            <IonButton onClick={onClose}>
+              <IonIcon icon={closeOutline} />
+            </IonButton>
+          </IonButtons>
+
           <IonTitle>Nueva tarea</IonTitle>
+
         </IonToolbar>
       </IonHeader>
 
       <IonContent className="ion-padding">
         <IonItem>
           <IonInput
-            label="Título"
-            labelPlacement="stacked"
-            placeholder="Ej. Comprar leche"
+            label="Tarea"
+            placeholder="Ej: Estudiar para el examen"
             value={title}
-            onIonChange={e => setTitle(e.detail.value!)}
+            onIonInput={e => setTitle(e.detail.value!)}
           />
         </IonItem>
-
-        <IonButton expand="block" className="ion-margin-top" onClick={save}>
-          Guardar tarea
-        </IonButton>
-
-        <IonButton expand="block" fill="clear" onClick={onClose}>
-          Cancelar
-        </IonButton>
       </IonContent>
-    </IonModal>
 
+      <IonFooter>
+        <IonToolbar>
+          <IonButton expand="block" onClick={handleSave}>
+            Guardar
+          </IonButton>
+        </IonToolbar>
+      </IonFooter>
+    </IonModal>
   );
 };
 
 export default AddTaskModal;
+
+
